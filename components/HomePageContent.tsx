@@ -3,17 +3,17 @@
 import { useEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import WellnessSection from "./WellnessSection";
-import OffersSection from "./OffersSection";
-import GallerySection from "./GallerySection";
-import InstagramSection from "./InstagramSection";
-import LocationSection from "./LocationSection";
-import ReviewsSection from "./ReviewsSection";
-import AccommodationSection from "./AccommodationSection";
-import EventsSection from "./EventsSection";
-import IntroSection from "./IntroSection";
-import DiningSection from "./DiningSection";
-import Footer from "./Footer";
+import IntroSection from "./sections/IntroSection";
+import AccommodationSection from "./sections/AccommodationSection";
+import DiningSection from "./sections/DiningSection";
+import EventsSection from "./sections/EventsSection";
+import WellnessSection from "./sections/WellnessSection";
+import OffersSection from "./sections/OffersSection";
+import ReviewsSection from "./sections/ReviewsSection";
+import GallerySection from "./features/GallerySection";
+import InstagramSection from "./features/InstagramSection";
+import LocationSection from "./features/LocationSection";
+import Footer from "./layout/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 

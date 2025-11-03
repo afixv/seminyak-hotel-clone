@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import LenisScroll from "@/components/LenisScroll";
+import LenisScroll from "@/components/features/LenisScroll";
 
 // Use a fallback sans-serif font similar to Beausite
 const beausite = localFont({

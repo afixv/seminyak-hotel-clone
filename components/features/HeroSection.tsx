@@ -1,16 +1,19 @@
-'use client';
+"use client";
 
-import { useState, useRef, useEffect } from 'react';
-import Image from 'next/image';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, EffectFade } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/effect-fade';
+import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, EffectFade } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/effect-fade";
 
 export default function HeroSection() {
   const [showSlider, setShowSlider] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
+  const [badgePosition, setBadgePosition] = useState(
+    "bottom-[80px] sm:bottom-[115px]"
+  );
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handlePlaySlide = () => {
@@ -38,18 +41,50 @@ export default function HeroSection() {
     }
   };
 
+  // Detect scroll position to adjust badge position
+  useEffect(() => {
+    const handleScroll = () => {
+      // Jika scroll position < 100px (mentok atas), gunakan posisi lebih tinggi
+      if (window.scrollY < 100) {
+        setBadgePosition("bottom-[80px] sm:bottom-[115px]");
+      } else {
+        setBadgePosition("bottom-[80px] sm:bottom-[35px]");
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // Hero slider images (placeholders - actual files not in imgs folder yet)
   const heroSlides = [
-    { src: '/images/slideshow-2.BCv-Awm_.png', alt: 'Hotel Indigo - Bali Seminyak Beach' },
-    { src: '/images/slideshow-2.BCv-Awm_.png', alt: 'Hotel Indigo - Bali Seminyak Beach' },
-    { src: '/images/slideshow-2.BCv-Awm_.png', alt: 'Hotel Indigo - Bali Seminyak Beach' },
-    { src: '/images/slideshow-2.BCv-Awm_.png', alt: 'Hotel Indigo - Bali Seminyak Beach' },
+    {
+      src: "/images/slideshow-2.BCv-Awm_.png",
+      alt: "Hotel Indigo - Bali Seminyak Beach",
+    },
+    {
+      src: "/images/slideshow-2.BCv-Awm_.png",
+      alt: "Hotel Indigo - Bali Seminyak Beach",
+    },
+    {
+      src: "/images/slideshow-2.BCv-Awm_.png",
+      alt: "Hotel Indigo - Bali Seminyak Beach",
+    },
+    {
+      src: "/images/slideshow-2.BCv-Awm_.png",
+      alt: "Hotel Indigo - Bali Seminyak Beach",
+    },
   ];
 
   return (
-    <section id="hero" className="relative h-[70vh] sm:h-screen overflow-hidden">
+    <section
+      id="hero"
+      className="relative h-[70vh] sm:h-screen overflow-hidden">
       {/* Video Background */}
-      <div className={`absolute top-0 left-0 w-full h-full ${showSlider ? 'hidden' : 'block'}`}>
+      <div
+        className={`absolute top-0 left-0 w-full h-full ${
+          showSlider ? "hidden" : "block"
+        }`}>
         <div className="relative h-full w-full overflow-hidden">
           <video
             ref={videoRef}
@@ -57,8 +92,7 @@ export default function HeroSection() {
             muted
             loop
             playsInline
-            className="absolute bottom-0 left-0 max-w-none w-[120%] h-full object-cover animate-slideLeftRight"
-          >
+            className="absolute bottom-0 left-0 max-w-none w-[120%] h-full object-cover animate-slideLeftRight">
             <source src="/videos/intro-video-hd.webm" type="video/mp4" />
           </video>
           <div className="absolute h-full w-full left-0 font-primary text-white flex items-end justify-center after:content-[''] after:absolute after:bottom-0 after:block after:bg-gradient-bottom after:w-full after:h-[40%] before:content-[''] before:absolute before:top-0 before:block before:w-full before:h-[30%] before:bg-gradient-top">
@@ -75,14 +109,15 @@ export default function HeroSection() {
       </div>
 
       {/* Swiper Slider */}
-      <div id="heroSlide" className={`h-full ${showSlider ? 'block' : 'hidden'}`}>
+      <div
+        id="heroSlide"
+        className={`h-full ${showSlider ? "block" : "hidden"}`}>
         <Swiper
           modules={[Autoplay, EffectFade]}
           effect="fade"
           autoplay={{ delay: 5000, disableOnInteraction: false }}
           loop={true}
-          className="h-full"
-        >
+          className="h-full">
           {heroSlides.map((slide, index) => (
             <SwiperSlide key={index} className="w-full h-full">
               <div className="relative h-full w-full overflow-hidden">
@@ -91,7 +126,7 @@ export default function HeroSection() {
                   alt={slide.alt}
                   fill
                   className="slide-image object-cover animate-slideLeftRight"
-                  loading={index === 0 ? 'eager' : 'lazy'}
+                  loading={index === 0 ? "eager" : "lazy"}
                   priority={index === 0}
                 />
                 <div className="absolute h-full w-full left-0 font-primary text-white flex items-end justify-center after:content-[''] after:absolute after:bottom-0 after:block after:bg-gradient-bottom after:w-full after:h-[40%] before:content-[''] before:absolute before:top-0 before:block before:w-full before:h-[30%] before:bg-gradient-top">
@@ -117,24 +152,21 @@ export default function HeroSection() {
             <button
               onClick={handlePlaySlide}
               aria-label="View Slider"
-              className="playSlide transition-all duration-300 hover:opacity-50"
-            >
+              className="playSlide transition-all duration-300 hover:opacity-50">
               <svg
                 className="fill-white"
                 xmlns="http://www.w3.org/2000/svg"
                 width="32"
                 height="32"
                 fill="none"
-                viewBox="0 0 256 256"
-              >
+                viewBox="0 0 256 256">
                 <path d="M208,58H179.21L165,36.67A6,6,0,0,0,160,34H96a6,6,0,0,0-5,2.67L76.78,58H48A22,22,0,0,0,26,80V192a22,22,0,0,0,22,22H208a22,22,0,0,0,22-22V80A22,22,0,0,0,208,58Zm10,134a10,10,0,0,1-10,10H48a10,10,0,0,1-10-10V80A10,10,0,0,1,48,70H80a6,6,0,0,0,5-2.67L99.21,46h57.57L171,67.33A6,6,0,0,0,176,70h32a10,10,0,0,1,10,10ZM128,90a42,42,0,1,0,42,42A42,42,0,0,0,128,90Zm0,72a30,30,0,1,1,30-30A30,30,0,0,1,128,162Z"></path>
               </svg>
             </button>
             <button
               onClick={handlePausePlay}
               aria-label="Pause & Play Video"
-              className="isPause transition-all duration-300 hover:opacity-50"
-            >
+              className="isPause transition-all duration-300 hover:opacity-50">
               {isPaused ? (
                 <svg
                   className="fill-white"
@@ -142,8 +174,7 @@ export default function HeroSection() {
                   width="32"
                   height="32"
                   fill="none"
-                  viewBox="0 0 256 256"
-                >
+                  viewBox="0 0 256 256">
                   <path d="M232.4,114.49,88.32,26.35a16,16,0,0,0-16.2-.3A15.86,15.86,0,0,0,64,39.87V216.13A15.94,15.94,0,0,0,80,232a16.07,16.07,0,0,0,8.36-2.35L232.4,141.51a15.81,15.81,0,0,0,0-27ZM80,215.94V40l143.83,88Z"></path>
                 </svg>
               ) : (
@@ -153,8 +184,7 @@ export default function HeroSection() {
                   width="32"
                   height="32"
                   fill="none"
-                  viewBox="0 0 256 256"
-                >
+                  viewBox="0 0 256 256">
                   <path d="M216,48V208a16,16,0,0,1-16,16H160a16,16,0,0,1-16-16V48a16,16,0,0,1,16-16h40A16,16,0,0,1,216,48ZM96,32H56A16,16,0,0,0,40,48V208a16,16,0,0,0,16,16H96a16,16,0,0,0,16-16V48A16,16,0,0,0,96,32Z"></path>
                 </svg>
               )}
@@ -162,8 +192,7 @@ export default function HeroSection() {
             <button
               onClick={handleMuteUnmute}
               aria-label="Mute Video"
-              className="isMuted transition-all duration-300 hover:opacity-50"
-            >
+              className="isMuted transition-all duration-300 hover:opacity-50">
               {isMuted ? (
                 <svg
                   className="fill-white"
@@ -171,8 +200,7 @@ export default function HeroSection() {
                   width="32"
                   height="32"
                   fill="none"
-                  viewBox="0 0 256 256"
-                >
+                  viewBox="0 0 256 256">
                   <path d="M64,84v88a4,4,0,0,1-4,4H32a16,16,0,0,1-16-16V96A16,16,0,0,1,32,80H60A4,4,0,0,1,64,84Zm93.15-58.15a8,8,0,0,0-10-.16l-65.57,51A4,4,0,0,0,80,79.84v96.32a4,4,0,0,0,1.55,3.15l65.57,51a8,8,0,0,0,9,.56,8.29,8.29,0,0,0,3.91-7.18V32.25A8.27,8.27,0,0,0,157.12,25.85Z"></path>
                 </svg>
               ) : (
@@ -182,8 +210,7 @@ export default function HeroSection() {
                   width="32"
                   height="32"
                   fill="none"
-                  viewBox="0 0 256 256"
-                >
+                  viewBox="0 0 256 256">
                   <path d="M155.51,24.81a8,8,0,0,0-8.42.88L77.25,80H32A16,16,0,0,0,16,96v64a16,16,0,0,0,16,16H77.25l69.84,54.31A8,8,0,0,0,160,224V32A8,8,0,0,0,155.51,24.81ZM32,96H72v64H32ZM144,207.64,88,164.09V91.91l56-43.55Zm54-106.08a24,24,0,0,1,0,33.94,8,8,0,0,1-11.31-11.31,8,8,0,0,0,0-11.31A8,8,0,0,1,198,101.56Zm36-36a72.07,72.07,0,0,1,0,101.82,8,8,0,1,1-11.31-11.31,56.05,56.05,0,0,0,0-79.2,8,8,0,0,1,11.31-11.31Z"></path>
                 </svg>
               )}
@@ -198,8 +225,7 @@ export default function HeroSection() {
           href="https://indigo.view360.se/tour.html"
           target="_blank"
           rel="noopener noreferrer"
-          className="transition-all duration-300 hover:opacity-50"
-        >
+          className="transition-all duration-300 hover:opacity-50">
           <Image
             src="/images/360.svg"
             alt="360 View"
@@ -221,7 +247,9 @@ export default function HeroSection() {
                   Arrival
                 </label>
                 <div className="flex gap-[25px] items-center">
-                  <p className="lg:text-[1.5em] xl:text-[2em] font-light w-[45px]">03</p>
+                  <p className="lg:text-[1.5em] xl:text-[2em] font-light w-[45px]">
+                    03
+                  </p>
                   <p className="uppercase flex items-center gap-2 lg:text-[14px] xl:text-[16px]">
                     <span>NOV</span>
                     <svg
@@ -230,8 +258,7 @@ export default function HeroSection() {
                       width="20"
                       height="20"
                       fill="none"
-                      viewBox="0 0 256 256"
-                    >
+                      viewBox="0 0 256 256">
                       <path d="M212.24,100.24l-80,80a6,6,0,0,1-8.48,0l-80-80a6,6,0,0,1,8.48-8.48L128,167.51l75.76-75.75a6,6,0,0,1,8.48,8.48Z"></path>
                     </svg>
                   </p>
@@ -245,7 +272,9 @@ export default function HeroSection() {
                   Departure
                 </label>
                 <div className="flex gap-[25px] items-center">
-                  <p className="lg:text-[1.5em] xl:text-[2em] font-light w-[45px]">04</p>
+                  <p className="lg:text-[1.5em] xl:text-[2em] font-light w-[45px]">
+                    04
+                  </p>
                   <p className="uppercase flex items-center gap-2 lg:text-[14px] xl:text-[16px]">
                     <span>NOV</span>
                     <svg
@@ -254,8 +283,7 @@ export default function HeroSection() {
                       width="20"
                       height="20"
                       fill="none"
-                      viewBox="0 0 256 256"
-                    >
+                      viewBox="0 0 256 256">
                       <path d="M212.24,100.24l-80,80a6,6,0,0,1-8.48,0l-80-80a6,6,0,0,1,8.48-8.48L128,167.51l75.76-75.75a6,6,0,0,1,8.48,8.48Z"></path>
                     </svg>
                   </p>
@@ -277,8 +305,7 @@ export default function HeroSection() {
                   width="20"
                   height="20"
                   fill="none"
-                  viewBox="0 0 256 256"
-                >
+                  viewBox="0 0 256 256">
                   <path d="M212.24,100.24l-80,80a6,6,0,0,1-8.48,0l-80-80a6,6,0,0,1,8.48-8.48L128,167.51l75.76-75.75a6,6,0,0,1,8.48,8.48Z"></path>
                 </svg>
               </div>
@@ -298,31 +325,27 @@ export default function HeroSection() {
                   width="20"
                   height="20"
                   fill="none"
-                  viewBox="0 0 256 256"
-                >
+                  viewBox="0 0 256 256">
                   <path d="M212.24,100.24l-80,80a6,6,0,0,1-8.48,0l-80-80a6,6,0,0,1,8.48-8.48L128,167.51l75.76-75.75a6,6,0,0,1,8.48,8.48Z"></path>
                 </svg>
               </div>
             </div>
           </div>
-          {/* Book Now Button */}
           <a
             href="https://www.hotelindigo.com/redirect?path=asearch&brandCode=IN&localeCode=en&regionCode=1&hotelCode=DPSIN&PMID=99502222&&icdv=99502222"
             target="_blank"
             rel="noopener noreferrer"
-            className="uppercase h-full bg-primary text-white font-primary whitespace-nowrap px-5 py-4 rounded-r-lg transition-all !duration-500 hover:bg-secondary"
-          >
+            className="uppercase h-full bg-primary text-white font-primary whitespace-nowrap px-5 py-8 rounded-r-lg transition-all duration-500! hover:bg-secondary">
             Book Now
           </a>
         </div>
       </div>
 
-      {/* Free Airport Transfer Badge - Fixed Right Side */}
-      <div className="fixed right-[10px] sm:right-[20px] z-30 transition-[bottom] duration-500 ease-in-out bottom-[80px] sm:bottom-[115px]">
+      <div
+        className={`fixed right-2.5 sm:right-5 z-30 transition-[bottom] duration-500 ease-in-out ${badgePosition}`}>
         <a
           href="/en/offers/summer-bali"
-          className="aspect-square bg-primary text-white font-primary flex items-center justify-center p-5 pt-6 rounded-full shadow-[0_3px_10px_rgb(0,0,0,0.2)] transition-all duration-300 hover:scale-[110%]"
-        >
+          className="aspect-square bg-primary text-white font-primary flex items-center justify-center p-5 pt-6 rounded-full shadow-[0_3px_10px_rgb(0,0,0,0.2)] transition-all duration-300 hover:scale-[110%]">
           <div className="text-center">
             <p className="uppercase text-[.5rem] sm:text-[.6rem] xl:text-[.7rem]">
               <span>Get free</span>

@@ -1,8 +1,8 @@
-import LoadingScreen from '@/components/LoadingScreen';
-import Header from '@/components/Header';
-import HeroSection from '@/components/HeroSection';
+import LoadingScreen from '@/components/features/LoadingScreen';
+import Header from '@/components/layout/Header';
+import HeroSection from '@/components/features/HeroSection';
 import HomePageContent from '@/components/HomePageContent';
-import MobileBottomNav from '@/components/MobileBottomNav';
+import MobileBottomNav from '@/components/layout/MobileBottomNav';
 
 export default function Home() {
   return (

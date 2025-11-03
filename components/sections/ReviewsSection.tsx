@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import Link from "next/link";
+import { Button, Heading, Text, Container } from "@/components/ui";
 
 export default function ReviewsSection() {
   const stars = Array(5).fill(0);
@@ -14,10 +14,13 @@ export default function ReviewsSection() {
         height={146}
         className="absolute bottom-8 right-8"
       />
-      <div className="container relative mx-auto">
-        <p className="text-primary font-primary font-normal sm:font-light text-2xl sm:text-[2.2rem] lg:text-[2.2rem] xl:text-[2.8rem] w-full sm:w-[600px]">
+      <Container>
+        <Heading
+          level="h2"
+          size="xl"
+          className="text-primary font-primary sm:font-light text-[1.5rem] sm:text-[2.2rem] lg:text-[2.2rem] xl:text-[2.8rem] w-full sm:w-[600px]">
           YOU DON&apos;T HAVE TO TAKE OUR WORD FOR IT
-        </p>
+        </Heading>
         <div className="my-5 sm:my-10 flex items-center gap-2.5">
           <ul className="flex items-center gap-[5px]">
             {stars.map((_, index) => (
@@ -33,17 +36,19 @@ export default function ReviewsSection() {
               </li>
             ))}
           </ul>
-          <p className="text-body font-primary lg:text-[.8rem] xl:text-[.9rem]">
+          <Text size="sm" className="lg:text-[.8rem] xl:text-[.9rem]">
             4.8/5(1147 Reviews)
-          </p>
+          </Text>
         </div>
-        <Link
+        <Button
           href="https://www.ihg.com/hotelindigo/redirect?path=hd-hotel-reviews&brandCode=in&hotelCode=dpsin&regionCode=1&localeCode=en&cm_mmc=iws_widget_DPSIN&icdv=99502222&dp=true"
           target="_blank"
-          className="bg-primary text-white lg:text-[.8rem] xl:text-[.9rem] px-9 py-4 rounded-full uppercase transition duration-300 ease-in-out inline-block mt-5 transform hover:bg-secondary hover:shadow-[0px_0px_52px_18px_rgba(0,0,0,0.1)] hover:-translate-y-1">
+          rel="noopener noreferrer"
+          size="lg"
+          variant="primary">
           Explore
-        </Link>
-      </div>
+        </Button>
+      </Container>
     </section>
   );
 }

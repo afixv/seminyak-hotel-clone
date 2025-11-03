@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { Input } from "@/components/ui";
 
 const awards = [
   { image: "/images/68e72d307e4c3704910780.png", link: "" },
@@ -127,6 +128,7 @@ const ihgBrands = [
 ];
 
 export default function Footer() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const swiperRef = useRef<any>(null);
 
   useEffect(() => {
@@ -257,36 +259,36 @@ export default function Footer() {
               autoComplete="off"
             />
             <div className="sm:w-[30%]">
-              <input
+              <Input
                 type="text"
                 name="firstname"
                 id="firstname"
                 aria-label="first name"
                 required
                 placeholder="First Name"
-                className="font-primary text-white focus:ring-0 w-full text-[.9rem] lg:text-[.9rem] xl:text-[.9rem] 2xl:text-[1rem] bg-transparent !border-b-[1px] !border-l-0 !border-t-0 !border-r-0 border-white placeholder:text-white px-0 py-4"
+                inputSize="md"
               />
             </div>
             <div className="sm:w-[30%]">
-              <input
+              <Input
                 type="text"
                 name="lastname"
                 id="lastname"
                 aria-label="last name"
                 required
                 placeholder="Last Name"
-                className="font-primary text-white focus:ring-0 w-full text-[.9rem] lg:text-[.9rem] xl:text-[.9rem] 2xl:text-[1rem] bg-transparent !border-b-[1px] !border-l-0 !border-t-0 !border-r-0 border-white placeholder:text-white px-0 py-4"
+                inputSize="md"
               />
             </div>
             <div className="sm:w-[30%]">
-              <input
+              <Input
                 type="email"
                 name="email"
                 id="email"
                 aria-label="email"
                 required
                 placeholder="Email Address"
-                className="font-primary text-white focus:ring-0 w-full text-[.9rem] lg:text-[.9rem] xl:text-[.9rem] 2xl:text-[1rem] bg-transparent !border-b-[1px] !border-l-0 !border-t-0 !border-r-0 border-white placeholder:text-white px-0 py-4"
+                inputSize="md"
               />
             </div>
             <div className="sm:w-[30%]">

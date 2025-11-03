@@ -87,3 +87,17 @@ export interface NavItem {
   href: string;
   dropdown?: NavItem[];
 }
+
+// Awards Types
+export interface Award {
+  id: string;
+  image: string;
+  link: string;
+}
+
+// IHG Brands Types
+export interface IHGBrand {
+  id: string;
+  image: string;
+  link: string;
+}

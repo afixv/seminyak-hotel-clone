@@ -4,10 +4,10 @@ import Link from "next/link";
 
 export default function EventsSection() {
   return (
-    <section className="relative py-[3rem] sm:py-[6rem]">
-      <div className="container mx-auto relative z-[2] px-4">
-        <div className="flex flex-col lg:flex-row gap-[15px]">
-          <div className="lg:w-[30%] flex flex-col gap-[50px]">
+    <section className="relative py-12 sm:py-24">
+      <div className="container mx-auto relative z-2 px-4">
+        <div className="flex flex-col lg:flex-row gap-4">
+          <div className="lg:w-1/3 flex flex-col gap-12">
             <div>
               <h2 className="text-primary text-[1.4rem] sm:text-[1.5rem] lg:text-[1.7rem] xl:text-[2.2rem] uppercase pb-5 text-center lg:text-left">
                 Wedding
@@ -16,10 +16,10 @@ export default function EventsSection() {
                 Celebrate your love in the heart of Bali&apos;s most vibrant
                 beachside spot at Hotel Indigo Bali Seminyak Beach.
               </p>
-              <div className="mt-[5px] sm:mt-[20px] flex justify-center lg:block">
+              <div className="mt-[5px] sm:mt-5 flex justify-center lg:block">
                 <Link
                   href="/en/wedding"
-                  className="bg-primary text-white text-[.6rem] px-[25px] py-[10px] rounded-full uppercase transition duration-300 ease-in-out inline-block mt-[20px] transform hover:bg-secondary hover:shadow-[0px_0px_52px_18px_rgba(0,_0,_0,_0.1)] hover:-translate-y-1">
+                  className="bg-primary text-white text-[.6rem] px-[25px] py-2.5 rounded-full uppercase transition duration-300 ease-in-out inline-block mt-5 transform hover:bg-secondary hover:shadow-[0px_0px_52px_18px_rgba(0,0,0,0.1)] hover:-translate-y-1">
                   Explore
                 </Link>
               </div>
@@ -33,10 +33,10 @@ export default function EventsSection() {
                 selections served in our unique breakout room or under the
                 Balinese skies on our pre-function lawn.
               </p>
-              <div className="mt-[5px] sm:mt-[20px] flex justify-center lg:block">
+              <div className="mt-[5px] sm:mt-5 flex justify-center lg:block">
                 <Link
                   href="/en/meeting"
-                  className="bg-primary text-white text-[.6rem] px-[25px] py-[10px] rounded-full uppercase transition duration-300 ease-in-out inline-block mt-[20px] transform hover:bg-secondary hover:shadow-[0px_0px_52px_18px_rgba(0,_0,_0,_0.1)] hover:-translate-y-1">
+                  className="bg-primary text-white text-[.6rem] px-[25px] py-2.5 rounded-full uppercase transition duration-300 ease-in-out inline-block mt-5 transform hover:bg-secondary hover:shadow-[0px_0px_52px_18px_rgba(0,0,0,0.1)] hover:-translate-y-1">
                   Explore
                 </Link>
               </div>
@@ -64,7 +64,7 @@ export default function EventsSection() {
           </div>
         </div>
       </div>
-      <div className="accoBox2 absolute right-0 top-[40%] lg:h-[750px] xl:h-[900px] w-[15vw] block bg-primary z-[1]"></div>
+      <div className="accoBox2 absolute right-0 top-[40%] lg:h-[750px] xl:h-[900px] w-[15vw] block bg-primary z-1"></div>
     </section>
   );
 }

@@ -6,7 +6,7 @@ export default function LocationSection() {
   return (
     <section className="bg-primary py-12 sm:py-24">
       <div className="container mx-auto">
-        <div className="flex flex-col sm:flex-row gap-10 sm:gap-20 max-w-[1024px] mx-auto">
+        <div className="flex flex-col sm:flex-row gap-10 sm:gap-20 max-w-5xl mx-auto">
           <div className="sm:w-1/2">
             <Image
               src="/images/map.DEkNhJdb.png"

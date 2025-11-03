@@ -8,7 +8,6 @@ import { navigationService } from "@/lib/services";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [navItems, setNavItems] = useState<NavItem[]>([]);
   const [languages, setLanguages] = useState<string[]>([]);
   const [isLoadingNav, setIsLoadingNav] = useState(true);
@@ -95,9 +94,7 @@ export default function Header() {
                         <div className="absolute hidden group-hover:block bg-white shadow-lg py-2 px-5 top-full mt-2 min-w-[200px]">
                           <ul className="text-sm text-body">
                             {item.dropdown.map((subItem, subIndex) => (
-                              <li
-                                key={subIndex}
-                                className="border-b">
+                              <li key={subIndex} className="border-b">
                                 <Link
                                   href={subItem.href}
                                   className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-0.5 after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
@@ -155,7 +152,7 @@ export default function Header() {
 
       {/* Tablet Header (MD, LG) */}
       <header
-        className={`fixed top-0 z-30 w-full hidden md:flex lg:flex xl:hidden 2xl:hidden items-center justify-between transition-all duration-300 pl-[20px] pr-5 py-5 ${
+        className={`fixed top-0 z-30 w-full hidden md:flex lg:flex xl:hidden 2xl:hidden items-center justify-between transition-all duration-300 pl-5 pr-5 py-5 ${
           isScrolled
             ? "bg-white shadow-header h-[8vh]"
             : "bg-transparent h-[8vh] md:h-[8vh] lg:h-[10vh]"
@@ -167,7 +164,7 @@ export default function Header() {
               alt="Hotel Indigo Seminyak Logo"
               width={80}
               height={52}
-              className={`w-[80px] filter ${
+              className={`w-20 filter ${
                 isScrolled ? "invert-0" : "invert brightness-0"
               }`}
             />
@@ -178,7 +175,7 @@ export default function Header() {
             href="https://www.hotelindigo.com/redirect?path=asearch&brandCode=IN&localeCode=en&regionCode=1&hotelCode=DPSIN&PMID=99502222&&icdv=99502222"
             target="_blank"
             rel="noopener noreferrer"
-            className={`uppercase px-5 py-2 text-[.7rem] border-[1px] transition-all duration-300 ${
+            className={`uppercase px-5 py-2 text-[.7rem] border transition-all duration-300 ${
               isScrolled
                 ? "text-primary border-primary hover:bg-primary hover:text-white"
                 : "text-white border-white hover:bg-secondary hover:border-secondary"

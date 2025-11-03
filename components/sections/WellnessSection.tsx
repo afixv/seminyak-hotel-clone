@@ -21,7 +21,9 @@ export default function WellnessSection() {
         setWellnessData(data);
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load wellness data");
+        setError(
+          err instanceof Error ? err.message : "Failed to load wellness data"
+        );
         console.error("Error loading wellness data:", err);
       } finally {
         setIsLoading(false);
@@ -30,6 +32,8 @@ export default function WellnessSection() {
 
     loadWellnessData();
   }, []);
+
+  console.error("Error state:", error);
 
   useEffect(() => {
     const initSwiper = async () => {

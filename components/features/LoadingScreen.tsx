@@ -19,7 +19,7 @@ export default function LoadingScreen() {
   return (
     <section
       id="loading-screen"
-      className={`fixed inset-0 flex justify-center items-center bg-white z-[100] ${
+      className={`fixed inset-0 flex justify-center items-center bg-white z-100 ${
         isVisible ? "animate-fadeIn" : "fade-out"
       }`}
     >

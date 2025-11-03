@@ -231,18 +231,18 @@ export default function HeroSection() {
             alt="360 View"
             width={50}
             height={50}
-            className="w-[40px] sm:w-[50px]"
+            className="w-10 sm:w-[50px]"
           />
         </a>
       </div>
 
       {/* Booking Widget - Bottom Center (Desktop Only) */}
       <div className="absolute bottom-0 z-10 left-[30vw] right-[30vw] hidden lg:flex justify-center">
-        <div className="bg-white text-body flex items-center pl-[20px] rounded-l-lg rounded-r-xl border-0">
+        <div className="bg-white text-body flex items-center pl-5 rounded-l-lg rounded-r-xl border-0">
           <div className="flex items-center font-primary">
             {/* Check In */}
             <div className="relative">
-              <div className="p-[10px] cursor-pointer relative z-[2]">
+              <div className="p-2.5 cursor-pointer relative z-2">
                 <label className="uppercase lg:text-[10px] xl:text-[12px] font-semibold">
                   Arrival
                 </label>
@@ -267,7 +267,7 @@ export default function HeroSection() {
             </div>
             {/* Check Out */}
             <div className="relative">
-              <div className="p-[10px] cursor-pointer relative z-[2]">
+              <div className="p-2.5 cursor-pointer relative z-2">
                 <label className="uppercase lg:text-[10px] xl:text-[12px] font-semibold">
                   Departure
                 </label>
@@ -292,7 +292,7 @@ export default function HeroSection() {
             </div>
           </div>
           {/* Guest Selector */}
-          <div className="flex flex-col w-[115px] h-full justify-end p-[10px]">
+          <div className="flex flex-col w-[115px] h-full justify-end p-2.5">
             <label className="font-primary uppercase lg:text-[10px] xl:text-[12px] font-semibold">
               Guest
             </label>
@@ -312,7 +312,7 @@ export default function HeroSection() {
             </div>
           </div>
           {/* Rooms Selector */}
-          <div className="flex flex-col w-[115px] h-full justify-end p-[10px]">
+          <div className="flex flex-col w-[115px] h-full justify-end p-2.5">
             <label className="font-primary uppercase lg:text-[10px] xl:text-[12px] font-semibold">
               Rooms
             </label>

@@ -5,3 +5,5 @@ export { offersService } from "./offersService";
 export { reviewsService } from "./reviewsService";
 export { eventsService } from "./eventsService";
 export { navigationService } from "./navigationService";
+export { awardsService } from "./awardsService";
+export { ihgBrandsService } from "./ihgBrandsService";

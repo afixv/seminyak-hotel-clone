@@ -1,85 +1,41 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-
-const offers = [
-  {
-    image: "/images/main-dining.Bq-1WGnP.png", // Placeholder - needs actual offer image
-    title: "Vibrant Tropical Festive",
-    description:
-      "Dive into the island's holiday spirit as Hotel Indigo Bali Seminyak Beach invites you to celebrate this festive season with a tropical twist in true neighborhood style, vibrant and merry.",
-    link: "/offers/vibrant-tropical-festive",
-  },
-  {
-    image: "/images/main-wedding.Bzni59le.png", // Placeholder - needs actual offer image
-    title: "MONOPOLY: Bali Edition",
-    description:
-      "The world's most famous board game, MONOPOLY, was unveiled in a grand celebration that brought together key tourism stakeholders, local entities, and enthusiastic guests eager to experience the island's first-ever official MONOPOLY board.",
-    link: "/offers/monopoly-bali-edition",
-  },
-  {
-    image: "/images/main-events.BWqmO2Bf.png", // Placeholder - needs actual offer image
-    title: "Sizzling Summer Fest",
-    description: "A summer of flavor awaits",
-    link: "/offers/sizzling-summer-fest",
-  },
-  {
-    image: "/images/rooms.BaI9CxEy.png", // Placeholder - needs actual offer image
-    title: "Summer in Bali",
-    description:
-      "Stay a minimum of 3 nights and enjoy complimentary one-way airport pick up and breakfast to fuel your island adventures",
-    link: "/offers/summer-bali",
-  },
-  {
-    image: "/images/suite.Cz8DciV_.png", // Placeholder - needs actual offer image
-    title: "Best Flexible Rate",
-    description:
-      "Book directly through IHG's website and/or mobile apps to secure the lowest available room rate",
-    link: "/offers/best-flexible-rate",
-  },
-  {
-    image: "/images/one-bedroom.Cn3x4nQ1.png", // Placeholder - needs actual offer image
-    title: "Seminyak Bliss",
-    description: "Complimentary daily resort credit starts from IDR 300.000",
-    link: "/offers/seminyak-bliss",
-  },
-  {
-    image: "/images/two-bedroom.DonygiVk.png", // Placeholder - needs actual offer image
-    title: "Breakfast On Us",
-    description:
-      "Awaken your senses with a complimentary breakfast that promises to kickstart your day in the most delicious way possible.",
-    link: "/offers/breakfast-on-us",
-  },
-  {
-    image: "/images/photo1.CvygVCoG.png", // Placeholder - needs actual offer image
-    title: "Book Early & Save",
-    description:
-      "Booking at least 14 days or more in advance to enjoy up to 10% savings on our Best Flexible Rates",
-    link: "/offers/book-early-save",
-  },
-  {
-    image: "/images/photo2.CYyw3Co4.png", // Placeholder - needs actual offer image
-    title: "Dinner Bed & Breakfast",
-    description: "Perfect stay with delicious breakfast and dinner included.",
-    link: "/offers/dinner-bed-and-breakfast",
-  },
-  {
-    image: "/images/slideshow-2.BCv-Awm_.png", // Placeholder - needs actual offer image
-    title: "Stay Longer Pay Less",
-    description: "Stay 5 nights or more and save up to 10% from our rate.",
-    link: "/offers/stay-longer-pay-less",
-  },
-];
+import { Offer } from "@/lib/types";
+import { offersService } from "@/lib/services";
 
 export default function OffersSection() {
+  const [offers, setOffers] = useState<Offer[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const swiperRef = useRef<{ destroy: () => void } | null>(null);
   const swiperMobileRef = useRef<{ destroy: () => void } | null>(null);
 
+  // Fetch offers data
+  useEffect(() => {
+    const loadOffers = async () => {
+      try {
+        setIsLoading(true);
+        const data = await offersService.fetchAll();
+        setOffers(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load offers");
+        console.error("Error loading offers:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadOffers();
+  }, []);
+
+  // Initialize Swiper
   useEffect(() => {
     const initSwiper = async () => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && offers.length > 0) {
         const Swiper = (await import("swiper")).default;
         const { Navigation, Pagination } = await import("swiper/modules");
 
@@ -125,7 +81,15 @@ export default function OffersSection() {
         swiperMobileRef.current.destroy();
       }
     };
-  }, []);
+  }, [offers]);
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">Error: {error}</div>;
+  }
+
+  if (isLoading || offers.length === 0) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
 
   return (
     <>
@@ -170,7 +134,7 @@ export default function OffersSection() {
                 </div>
               ))}
             </div>
-            <span className="swiper-button-prev prev-homeoffer absolute top-1/2 -translate-y-1/2 left-[3vw] z-10 !h-[45px] !w-[45px] sm:!h-[50px] sm:!w-[50px] bg-[#2525258c] rounded-full backdrop-blur-sm after:!content-[unset] hover:bg-[#3a3a3acc] transition-all duration-200">
+            <span className="swiper-button-prev prev-homeoffer absolute top-1/2 -translate-y-1/2 left-[3vw] z-10 h-[45px]! w-[45px]! sm:h-[50px]! sm:w-[50px]! bg-[#2525258c] rounded-full backdrop-blur-sm after:content-[unset]! hover:bg-[#3a3a3acc] transition-all duration-200">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="fill-white"
@@ -181,7 +145,7 @@ export default function OffersSection() {
               </svg>
             </span>
 
-            <span className="swiper-button-next next-homeoffer absolute top-1/2 -translate-y-1/2 right-[3vw] z-10 !h-[45px] !w-[45px] sm:!h-[50px] sm:!w-[50px] bg-[#2525258c] rounded-full backdrop-blur-sm after:!content-[unset] hover:bg-[#3a3a3acc] transition-all duration-200">
+            <span className="swiper-button-next next-homeoffer absolute top-1/2 -translate-y-1/2 right-[3vw] z-10 h-[45px]! w-[45px]! sm:h-[50px]! sm:w-[50px]! bg-[#2525258c] rounded-full backdrop-blur-sm after:content-[unset]! hover:bg-[#3a3a3acc] transition-all duration-200">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="fill-white"
@@ -220,7 +184,7 @@ export default function OffersSection() {
                       className="h-full w-full object-cover object-center"
                     />
                   </div>
-                  <div className="py-5 px-[15px] h-full flex flex-col justify-end absolute bottom-0 w-full bg-gradient-to-b from-transparent to-black">
+                  <div className="py-5 px-[15px] h-full flex flex-col justify-end absolute bottom-0 w-full bg-linear-to-b from-transparent to-black">
                     <p className="font-primary uppercase text-white leading-[120%] mb-2">
                       {offer.title}
                     </p>

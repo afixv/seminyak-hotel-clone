@@ -36,8 +36,8 @@ export default function AccommodationSection() {
   return (
     <section
       id="homeAccommodation"
-      className="py-[1rem] sm:py-[1rem] md:py-0 lg:py-[6rem] relative block sm:block">
-      <div className="accoBox1 absolute left-0 sm:top-[30%] bottom-0 h-[100px] sm:h-[unset] sm:w-[15vw] hidden sm:block bg-primary z-[1]"></div>
+      className="py-4 sm:py-4 md:py-0 lg:py-24 relative block sm:block">
+      <div className="accoBox1 absolute left-0 sm:top-[30%] bottom-0 h-[100px] sm:h-[unset] sm:w-[15vw] hidden sm:block bg-primary z-1"></div>
       <div className="container mx-auto px-4">
         <p className="uppercase text-primary text-[1.4rem] md:text-[2rem] lg:text-[2.2rem] font-primary font-light text-center lg:text-left mb-[30px] sm:mb-0">
           Accommodation
@@ -45,8 +45,8 @@ export default function AccommodationSection() {
       </div>
 
       {/* Desktop/Tablet Grid */}
-      <div className="container mx-auto mt-[50px] relative z-[2] hidden sm:flex px-4">
-        <div className="flex w-full md:gap-[20px] lg:gap-[40px] hover:gap-[5px] transition-all duration-300">
+      <div className="container mx-auto mt-[50px] relative z-2 hidden sm:flex px-4">
+        <div className="flex w-full md:gap-5 lg:gap-10 hover:gap-[5px] transition-all duration-300">
           {isLoading ? (
             <div className="w-full text-center py-10">Loading...</div>
           ) : (

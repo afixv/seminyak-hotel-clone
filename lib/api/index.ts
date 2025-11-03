@@ -5,3 +5,5 @@ export { offersApi } from "./offersApi";
 export { reviewsApi } from "./reviewsApi";
 export { eventsApi } from "./eventsApi";
 export { navigationApi } from "./navigationApi";
+export { awardsApi } from "./awardsApi";
+export { ihgBrandsApi } from "./ihgBrandsApi";

@@ -19,7 +19,9 @@ export default function DiningSection() {
         setDiningInfo(data);
         setError(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Failed to load dining info");
+        setError(
+          err instanceof Error ? err.message : "Failed to load dining info"
+        );
         console.error("Error loading dining info:", err);
       } finally {
         setIsLoading(false);
@@ -38,8 +40,8 @@ export default function DiningSection() {
   }
 
   return (
-    <section className="container mx-auto mt-[3rem] sm:mt-[7rem] pb-[40px] sm:pb-0 relative px-4">
-      <div className="flex flex-col sm:grid grid-cols-2 items-center relative z-[2] gap-8">
+    <section className="container mx-auto mt-12 sm:mt-28 pb-10 sm:pb-0 relative px-4">
+      <div className="flex flex-col sm:grid grid-cols-2 items-center relative z-2 gap-8">
         <div className="md:h-[300px] lg:h-[400px] xl:h-[500px] w-full overflow-hidden rounded-bl-[100px] lg:rounded-bl-[150px]">
           <Image
             src={diningInfo.image}
@@ -49,19 +51,13 @@ export default function DiningSection() {
             className="h-full w-full object-cover object-center"
           />
         </div>
-        <div className="font-primary font-light sm:px-[50px] mt-[20px] sm:mt-0">
+        <div className="font-primary font-light sm:px-[50px] mt-5 sm:mt-0">
           <Heading level="h2" size="lg">
             {diningInfo.title}
           </Heading>
-          <Text className="mt-[20px] sm:text-left">
-            {diningInfo.description}
-          </Text>
-          <div className="mt-[5px] sm:mt-[20px] flex justify-center sm:block">
-            <Button
-              href={diningInfo.link}
-              size="sm"
-              variant="primary"
-            >
+          <Text className="mt-5 sm:text-left">{diningInfo.description}</Text>
+          <div className="mt-5 sm:mt-20 flex justify-center sm:block">
+            <Button href={diningInfo.link} size="sm" variant="primary">
               Explore
             </Button>
           </div>

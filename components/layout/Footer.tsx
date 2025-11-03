@@ -1,139 +1,43 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Input } from "@/components/ui";
-
-const awards = [
-  { image: "/images/68e72d307e4c3704910780.png", link: "" },
-  {
-    image: "/images/6827cc6887513591278065.png",
-    link: "https://www.nationalgeographic.com/travel/topic/coastal-collection-2025",
-  },
-  {
-    image: "/images/6827cc6830425891066093.png",
-    link: "https://www.nationalgeographic.com/travel/article/luxury-collection-2024",
-  },
-  { image: "/images/6827ce8ecd798742393227.png", link: "/awards" },
-  { image: "/images/6849439ed071d110950510.png", link: "" },
-  {
-    image: "/images/6822c9d119f6d025575909.png",
-    link: "https://www.linkedin.com/feed/update/urn:li:activity:6587225648757121024",
-  },
-  {
-    image: "/images/6822c9b8854f0945111418.png",
-    link: "https://awards.exquisite-media.co.id/",
-  },
-  {
-    image: "/images/6822c9bd1a76a157898715.png",
-    link: "https://www.linkedin.com/feed/update/urn:li:activity:6577373552826245120",
-  },
-  { image: "/images/6822c9ac0d26e820328220.png", link: "/awards" },
-  {
-    image: "/images/6822c9b48b19d622450903.png",
-    link: "https://www.linkedin.com/feed/update/urn:li:activity:6564313739208863744/",
-  },
-  {
-    image: "/images/6822c9c19fb13552132079.png",
-    link: "https://www.tripadvisor.co.id/Hotel_Review-g469404-d9595791-Reviews-Hotel_Indigo_Bali_Seminyak_Beach-Seminyak_Kuta_District_Bali.html",
-  },
-  {
-    image: "/images/6822c9cabceec488737627.png",
-    link: "https://www.destinasian.com/blog/news-briefs/rca2023",
-  },
-];
-
-const ihgBrands = [
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.sixsenses.com/en",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/regent/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6862ab6072fde323197028.svg",
-    link: "https://www.ihg.com/intercontinental/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/vignettecollection/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6862ab988dd4a282144120.svg",
-    link: "https://www.ihg.com/kimptonhotels/hotels/us/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/hotelindigo/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/voco/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/68620cf9a672e549223359.svg",
-    link: "https://www.ihg.com/content/us/en/ruby-hotels",
-  },
-  {
-    image: "/images/6862abdc2ce43796200625.svg",
-    link: "https://www.ihg.com/hualuxe/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6862ac0c067fc545171902.svg",
-    link: "https://www.ihg.com/crowneplaza/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/content/us/en/iberostar-beachfront-resorts",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/evenhotels/hotels/us/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/holidayinnexpress/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/holidayinn/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/garnerhotels",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/avidhotels/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/atwellsuites/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/staybridge/hotels/gb/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/holidayinnclubvacations/hotels/us/en/reservation",
-  },
-  {
-    image: "/images/6720506a3a527458395735.png",
-    link: "https://www.ihg.com/candlewood/hotels/us/en/reservation",
-  },
-];
+import { awardsService, ihgBrandsService } from "@/lib/services";
+import type { Award, IHGBrand } from "@/lib/types";
 
 export default function Footer() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const swiperRef = useRef<any>(null);
 
+  const [awards, setAwards] = useState<Award[]>([]);
+  const [ihgBrands, setIhgBrands] = useState<IHGBrand[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        setIsLoading(true);
+        const [awardsData, brandsData] = await Promise.all([
+          awardsService.fetchAll(),
+          ihgBrandsService.fetchAll(),
+        ]);
+        setAwards(awardsData);
+        setIhgBrands(brandsData);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load data");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
   useEffect(() => {
     const initSwiper = async () => {
-      if (typeof window !== "undefined") {
+      if (typeof window !== "undefined" && awards.length > 0) {
         const Swiper = (await import("swiper")).default;
         const { Navigation } = await import("swiper/modules");
 
@@ -168,22 +72,22 @@ export default function Footer() {
         swiperRef.current.destroy();
       }
     };
-  }, []);
+  }, [awards]);
 
   return (
     <footer className="mb-[45px] sm:mb-[unset]">
-      <div className="bg-primary pb-[3rem] sm:pb-[6rem]">
+      <div className="bg-primary pb-12 sm:pb-24">
         {/* Awards Section */}
         <section
           id="awards"
-          className="py-[30px] sm:py-[80px] mx-[30px] lg:mx-[0rem]">
+          className="py-[30px] sm:py-20 mx-[30px] lg:mx-0">
           <p className="text-center uppercase text-white font-primary lg:text-[1.6rem] xl:text-[1.8rem] mb-[30px]">
             Awards
           </p>
 
           <div className="container mx-auto relative">
             {/* Tombol kiri */}
-            <div className="swiper-button-prev prev-awards absolute top-1/2 -translate-y-1/2 !h-[35px] !w-[35px] after:!content-[unset] !left-[10px] z-10">
+            <div className="swiper-button-prev prev-awards absolute top-1/2 -translate-y-1/2 h-[35px]! w-[35px]! after:content-[unset]! left-2.5! z-10">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="100%"
@@ -218,7 +122,7 @@ export default function Footer() {
             </div>
 
             {/* Tombol kanan */}
-            <div className="swiper-button-next next-awards absolute top-1/2 -translate-y-1/2 !h-[35px] !w-[35px] after:!content-[unset] !right-[10px] z-10">
+            <div className="swiper-button-next next-awards absolute top-1/2 -translate-y-1/2 h-[35px]! w-[35px]! after:content-[unset]! right-2.5! z-10">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="100%"
@@ -323,7 +227,7 @@ export default function Footer() {
             <div className="sm:w-[30%] order-7 sm:order-6">
               <div className="mt-5 sm:mt-0 flex sm:blog justify-center sm:justify-start">
                 <button
-                  className="mt-[10px] font-primary text-primary text-[.8rem] lg:text-[.9rem] xl:text-[1rem] bg-white border-[1px] border-[#eee] px-[35px] py-[15px] uppercase rounded-full hover:text-white hover:bg-secondary hover:border-secondary transition-all duration-300"
+                  className="mt-2.5 font-primary text-primary text-[.8rem] lg:text-[.9rem] xl:text-[1rem] bg-white border border-[#eee] px-[35px] py-[15px] uppercase rounded-full hover:text-white hover:bg-secondary hover:border-secondary transition-all duration-300"
                   disabled>
                   Submit
                 </button>
@@ -338,7 +242,7 @@ export default function Footer() {
 
           {/* Footer Links */}
           <div className="flex sm:flex-row flex-col gap-10 sm:gap-16 justify-between">
-            <div className="sm:w-[240px]">
+            <div className="sm:w-60">
               <Image
                 src="/images/logo-new-ver.BJ3J8nV3.png"
                 alt="Hotel Indigo Logo"
@@ -349,7 +253,7 @@ export default function Footer() {
             </div>
             {/* Social Media */}
             <div className="sm:w-[25%]">
-              <p className="font-primary text-white font-light text-[1.5rem] mb-[20px] text-center sm:text-left">
+              <p className="font-primary text-white font-light text-[1.5rem] mb-5 text-center sm:text-left">
                 Follow Us
               </p>
               <ul className="flex items-center flex-wrap gap-5 lg:gap-3 xl:gap-3 justify-center sm:justify-start">
@@ -359,7 +263,7 @@ export default function Footer() {
                     target="_blank"
                     aria-label="Facebook">
                     <svg
-                      className="fill-white hover:fill-secondary w-[20px] h-[20px] lg:w-[20px] lg:h-[20px] xl:w-[25px] xl:h-[25px]"
+                      className="fill-white hover:fill-secondary w-5 h-5 lg:w-5 lg:h-5 xl:w-[25px] xl:h-[25px]"
                       viewBox="0 0 20 20">
                       <path d="M11,10h2.6l0.4-3H11V5.3c0-0.9,0.2-1.5,1.5-1.5H14V1.1c-0.3,0-1-0.1-2.1-0.1C9.6,1,8,2.4,8,5v2H5.5v3H8v8h3V10z"></path>
                     </svg>
@@ -371,7 +275,7 @@ export default function Footer() {
                     target="_blank"
                     aria-label="Instagram">
                     <svg
-                      className="fill-white hover:fill-secondary w-[20px] h-[20px] lg:w-[20px] lg:h-[20px] xl:w-[25px] xl:h-[25px]"
+                      className="fill-white hover:fill-secondary w-5 h-5 lg:w-5 lg:h-5 xl:w-[25px] xl:h-[25px]"
                       viewBox="0 0 20 20">
                       <path d="M13.55,1H6.46C3.45,1,1,3.44,1,6.44v7.12c0,3,2.45,5.44,5.46,5.44h7.08c3.02,0,5.46-2.44,5.46-5.44V6.44 C19.01,3.44,16.56,1,13.55,1z M17.5,14c0,1.93-1.57,3.5-3.5,3.5H6c-1.93,0-3.5-1.57-3.5-3.5V6c0-1.93,1.57-3.5,3.5-3.5h8 c1.93,0,3.5,1.57,3.5,3.5V14z"></path>
                       <circle cx="14.87" cy="5.26" r="1.09"></circle>
@@ -385,7 +289,7 @@ export default function Footer() {
                     target="_blank"
                     aria-label="Twitter">
                     <svg
-                      className="fill-white hover:fill-secondary w-[20px] h-[20px] lg:w-[20px] lg:h-[20px] xl:w-[25px] xl:h-[25px]"
+                      className="fill-white hover:fill-secondary w-5 h-5 lg:w-5 lg:h-5 xl:w-[25px] xl:h-[25px]"
                       viewBox="0 0 20 20">
                       <path d="m15.08,2.1h2.68l-5.89,6.71,6.88,9.1h-5.4l-4.23-5.53-4.84,5.53H1.59l6.24-7.18L1.24,2.1h5.54l3.82,5.05,4.48-5.05Zm-.94,14.23h1.48L6,3.61h-1.6l9.73,12.71h0Z"></path>
                     </svg>
@@ -397,7 +301,7 @@ export default function Footer() {
                     target="_blank"
                     aria-label="Tripadvisor">
                     <svg
-                      className="fill-white hover:fill-secondary w-[20px] h-[20px] lg:w-[20px] lg:h-[20px] xl:w-[25px] xl:h-[25px]"
+                      className="fill-white hover:fill-secondary w-5 h-5 lg:w-5 lg:h-5 xl:w-[25px] xl:h-[25px]"
                       viewBox="0 0 20 20">
                       <path d="M19.021,7.866C19.256,6.862,20,5.854,20,5.854h-3.346C14.781,4.641,12.504,4,9.98,4C7.363,4,4.999,4.651,3.135,5.876H0	c0,0,0.738,0.987,0.976,1.988c-0.611,0.837-0.973,1.852-0.973,2.964c0,2.763,2.249,5.009,5.011,5.009	c1.576,0,2.976-0.737,3.901-1.879l1.063,1.599l1.075-1.615c0.475,0.611,1.1,1.111,1.838,1.451c1.213,0.547,2.574,0.612,3.825,0.15	c2.589-0.963,3.913-3.852,2.964-6.439c-0.175-0.463-0.4-0.876-0.675-1.238H19.021z M16.38,14.594	c-1.002,0.371-2.088,0.328-3.06-0.119c-0.688-0.317-1.252-0.817-1.657-1.438c-0.164-0.25-0.313-0.52-0.417-0.811	c-0.124-0.328-0.186-0.668-0.217-1.014c-0.063-0.689,0.037-1.396,0.339-2.043c0.448-0.971,1.251-1.71,2.25-2.079	c2.075-0.765,4.375,0.3,5.14,2.366c0.762,2.066-0.301,4.37-2.363,5.134L16.38,14.594L16.38,14.594z M8.322,13.066	c-0.72,1.059-1.935,1.76-3.309,1.76c-2.207,0-4.001-1.797-4.001-3.996c0-2.203,1.795-4.002,4.001-4.002	c2.204,0,3.999,1.8,3.999,4.002c0,0.137-0.024,0.261-0.04,0.396c-0.067,0.678-0.284,1.313-0.648,1.853v-0.013H8.322z M2.472,10.775	c0,1.367,1.112,2.479,2.476,2.479c1.363,0,2.472-1.11,2.472-2.479c0-1.359-1.11-2.468-2.472-2.468	C3.584,8.306,2.473,9.416,2.472,10.775L2.472,10.775z M12.514,10.775c0,1.367,1.104,2.479,2.471,2.479	c1.363,0,2.474-1.108,2.474-2.479c0-1.359-1.11-2.468-2.474-2.468c-1.364,0-2.477,1.109-2.477,2.468H12.514z M3.324,10.775	c0-0.893,0.726-1.618,1.614-1.618c0.889,0,1.625,0.727,1.625,1.618c0,0.898-0.725,1.627-1.625,1.627	c-0.901,0-1.625-0.729-1.625-1.627H3.324z M13.354,10.775c0-0.893,0.726-1.618,1.627-1.618c0.886,0,1.61,0.727,1.61,1.618	c0,0.898-0.726,1.627-1.626,1.627s-1.625-0.729-1.625-1.627H13.354z M9.977,4.875c1.798,0,3.425,0.324,4.849,0.968	c-0.535,0.015-1.061,0.108-1.586,0.3c-1.264,0.463-2.264,1.388-2.815,2.604c-0.262,0.551-0.398,1.133-0.448,1.72	C9.79,7.905,7.677,5.873,5.076,5.82C6.501,5.208,8.153,4.875,9.94,4.875H9.977z"></path>
                     </svg>
@@ -409,7 +313,7 @@ export default function Footer() {
                     target="_blank"
                     aria-label="Youtube">
                     <svg
-                      className="fill-white hover:fill-secondary w-[20px] h-[20px] lg:w-[20px] lg:h-[20px] xl:w-[25px] xl:h-[25px]"
+                      className="fill-white hover:fill-secondary w-5 h-5 lg:w-5 lg:h-5 xl:w-[25px] xl:h-[25px]"
                       viewBox="0 0 20 20">
                       <path d="M15,4.1c1,0.1,2.3,0,3,0.8c0.8,0.8,0.9,2.1,0.9,3.1C19,9.2,19,10.9,19,12c-0.1,1.1,0,2.4-0.5,3.4c-0.5,1.1-1.4,1.5-2.5,1.6 c-1.2,0.1-8.6,0.1-11,0c-1.1-0.1-2.4-0.1-3.2-1c-0.7-0.8-0.7-2-0.8-3C1,11.8,1,10.1,1,8.9c0-1.1,0-2.4,0.5-3.4C2,4.5,3,4.3,4.1,4.2 C5.3,4.1,12.6,4,15,4.1z M8,7.5v6l5.5-3L8,7.5z"></path>
                     </svg>
@@ -421,7 +325,7 @@ export default function Footer() {
                     target="_blank"
                     aria-label="Tiktok">
                     <svg
-                      className="fill-white hover:fill-secondary w-[20px] h-[20px] lg:w-[20px] lg:h-[20px] xl:w-[25px] xl:h-[25px]"
+                      className="fill-white hover:fill-secondary w-5 h-5 lg:w-5 lg:h-5 xl:w-[25px] xl:h-[25px]"
                       viewBox="0 0 20 20">
                       <path d="M17.24,6V8.82a6.79,6.79,0,0,1-4-1.28v5.81A5.26,5.26,0,1,1,8,8.1a4.36,4.36,0,0,1,.72.05v2.9A2.57,2.57,0,0,0,7.64,11a2.4,2.4,0,1,0,2.77,2.38V2h2.86a4,4,0,0,0,1.84,3.38A4,4,0,0,0,17.24,6Z"></path>
                     </svg>
@@ -433,7 +337,7 @@ export default function Footer() {
                     target="_blank"
                     aria-label="Linkedin">
                     <svg
-                      className="fill-white hover:fill-secondary w-[20px] h-[20px] lg:w-[20px] lg:h-[20px] xl:w-[25px] xl:h-[25px]"
+                      className="fill-white hover:fill-secondary w-5 h-5 lg:w-5 lg:h-5 xl:w-[25px] xl:h-[25px]"
                       viewBox="0 0 20 20">
                       <path d="M5.77,17.89 L5.77,7.17 L2.21,7.17 L2.21,17.89 L5.77,17.89 L5.77,17.89 Z M3.99,5.71 C5.23,5.71 6.01,4.89 6.01,3.86 C5.99,2.8 5.24,2 4.02,2 C2.8,2 2,2.8 2,3.85 C2,4.88 2.77,5.7 3.97,5.7 L3.99,5.7 L3.99,5.71 L3.99,5.71 Z"></path>
                       <path d="M7.75,17.89 L11.31,17.89 L11.31,11.9 C11.31,11.58 11.33,11.26 11.43,11.03 C11.69,10.39 12.27,9.73 13.26,9.73 C14.55,9.73 15.06,10.71 15.06,12.15 L15.06,17.89 L18.62,17.89 L18.62,11.74 C18.62,8.45 16.86,6.92 14.52,6.92 C12.6,6.92 11.75,7.99 11.28,8.73 L11.3,8.73 L11.3,7.17 L7.75,7.17 C7.79,8.17 7.75,17.89 7.75,17.89 L7.75,17.89 L7.75,17.89 Z"></path>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button, Heading, Text } from "@/components/ui";
 import { DiningItem } from "@/lib/types";
@@ -40,7 +40,7 @@ export default function DiningSection() {
   }
 
   return (
-    <section className="container mx-auto mt-12 sm:mt-28 pb-10 sm:pb-0 relative px-4">
+    <section className="container mx-auto mt-8 pb-10 sm:pb-0 relative px-4">
       <div className="flex flex-col sm:grid grid-cols-2 items-center relative z-2 gap-8">
         <div className="md:h-[300px] lg:h-[400px] xl:h-[500px] w-full overflow-hidden rounded-bl-[100px] lg:rounded-bl-[150px]">
           <Image

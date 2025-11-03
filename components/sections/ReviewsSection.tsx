@@ -1,12 +1,15 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button, Heading, Text, Container } from "@/components/ui";
 import { reviewsService } from "@/lib/services";
 
 export default function ReviewsSection() {
-  const [rating, setRating] = useState<{ rating: number; count: number } | null>(null);
+  const [rating, setRating] = useState<{
+    rating: number;
+    count: number;
+  } | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -70,7 +73,8 @@ export default function ReviewsSection() {
             ))}
           </ul>
           <Text size="sm" className="lg:text-[.8rem] xl:text-[.9rem]">
-            {rating.rating.toFixed(1)}/{5}({rating.count.toLocaleString()} Reviews)
+            {rating.rating.toFixed(1)}/{5}({rating.count.toLocaleString()}{" "}
+            Reviews)
           </Text>
         </div>
         <Button

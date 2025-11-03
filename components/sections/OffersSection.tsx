@@ -3,8 +3,12 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { Offer } from "@/lib/types";
 import { offersService } from "@/lib/services";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function OffersSection() {
   const [offers, setOffers] = useState<Offer[]>([]);
@@ -12,6 +16,7 @@ export default function OffersSection() {
   const [error, setError] = useState<string | null>(null);
   const swiperRef = useRef<{ destroy: () => void } | null>(null);
   const swiperMobileRef = useRef<{ destroy: () => void } | null>(null);
+  const accoBox3Ref = useRef<HTMLDivElement>(null);
 
   // Fetch offers data
   useEffect(() => {
@@ -80,6 +85,32 @@ export default function OffersSection() {
       if (swiperMobileRef.current) {
         swiperMobileRef.current.destroy();
       }
+    };
+  }, [offers]);
+
+  useEffect(() => {
+    const el = accoBox3Ref.current;
+    if (!el) return;
+
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: el,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true,
+        },
+      });
+
+      tl.fromTo(el, { width: "15vw" }, { width: "35vw", ease: "none" });
+    });
+
+    // refresh setelah Swiper siap
+    setTimeout(() => ScrollTrigger.refresh(), 300);
+
+    return () => {
+      ctx.revert();
+      ScrollTrigger.killAll();
     };
   }, [offers]);
 
@@ -158,7 +189,9 @@ export default function OffersSection() {
           </div>
           <div className="swiper-pagination bottom-0 hidden sm:block"></div>
         </div>
-        <div className="accoBox3 absolute left-0 bottom-0 lg:h-[250px] xl:h-[400px] w-[15vw] block bg-primary z-1"></div>
+        <div
+          ref={accoBox3Ref}
+          className="accoBox3 absolute left-0 bottom-0 lg:h-[250px] xl:h-[400px] w-[15vw] block bg-primary z-1"></div>
       </section>
 
       {/* Mobile Offers Section */}

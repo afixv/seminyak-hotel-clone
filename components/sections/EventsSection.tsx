@@ -1,8 +1,37 @@
-import React from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function EventsSection() {
+  const accoBox2Ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = accoBox2Ref.current;
+    if (!el) return;
+
+    const animation = gsap.to(el, {
+      width: "35vw",
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+        markers: false,
+      },
+    });
+
+    setTimeout(() => ScrollTrigger.refresh(), 300);
+
+    return () => {
+      animation.scrollTrigger?.kill();
+      animation.kill();
+    };
+  }, []);
   return (
     <section className="relative py-12 sm:py-24">
       <div className="container mx-auto relative z-2 px-4">
@@ -64,7 +93,9 @@ export default function EventsSection() {
           </div>
         </div>
       </div>
-      <div className="accoBox2 absolute right-0 top-[40%] lg:h-[750px] xl:h-[900px] w-[15vw] block bg-primary z-1"></div>
+      <div
+        ref={accoBox2Ref}
+        className="accoBox2 absolute right-0 top-[40%] lg:h-[750px] xl:h-[900px] w-[15vw] block bg-primary z-1"></div>
     </section>
   );
 }

@@ -1,15 +1,20 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 import { AccommodationRoom } from "@/lib/types";
 import { accommodationService } from "@/lib/services";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function AccommodationSection() {
   const [rooms, setRooms] = useState<AccommodationRoom[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const accoBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const loadRooms = async () => {
@@ -29,6 +34,26 @@ export default function AccommodationSection() {
     loadRooms();
   }, []);
 
+  useEffect(() => {
+    if (!accoBoxRef.current) return;
+
+    gsap.to(accoBoxRef.current, {
+      scrollTrigger: {
+        trigger: accoBoxRef.current,
+        start: "top 80%",
+        end: "bottom 20%",
+        scrub: 1,
+        markers: false,
+      },
+      width: "35vw",
+      ease: "none",
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
+  }, []);
+
   if (error) {
     return <div className="text-center py-10 text-red-500">Error: {error}</div>;
   }
@@ -37,7 +62,9 @@ export default function AccommodationSection() {
     <section
       id="homeAccommodation"
       className="py-4 sm:py-4 md:py-0 lg:py-24 relative block sm:block">
-      <div className="accoBox1 absolute left-0 sm:top-[30%] bottom-0 h-[100px] sm:h-[unset] sm:w-[15vw] hidden sm:block bg-primary z-1"></div>
+      <div
+        ref={accoBoxRef}
+        className="accoBox1 absolute left-0 sm:top-[30%] bottom-0 h-[100px] sm:h-[1180px] sm:w-[15vw] hidden sm:block bg-primary z-1"></div>
       <div className="container mx-auto px-4">
         <p className="uppercase text-primary text-[1.4rem] md:text-[2rem] lg:text-[2.2rem] font-primary font-light text-center lg:text-left mb-[30px] sm:mb-0">
           Accommodation

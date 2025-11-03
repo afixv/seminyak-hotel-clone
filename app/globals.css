@@ -99,3 +99,12 @@ body {
     transform: scale(1.2) translateX(-10%);
   }
 }
+
+* {
+  scrollbar-color: color-mix(in oklch, currentColor 35%, transparent)
+    transparent;
+}
+*:hover {
+  scrollbar-color: color-mix(in oklch, currentColor 60%, transparent)
+    transparent;
+}

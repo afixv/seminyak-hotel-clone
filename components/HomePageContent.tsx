@@ -25,37 +25,16 @@ export default function HomePageContent() {
 
   return (
     <main>
-      {/* Intro Section */}
       <IntroSection />
-
-      {/* Accommodation Section */}
       <AccommodationSection />
-
-      {/* Dining Section */}
       <DiningSection />
-
-      {/* Events Section */}
       <EventsSection />
-
-      {/* Wellness Section */}
       <WellnessSection />
-
-      {/* Offers Section */}
       <OffersSection />
-
-      {/* Gallery Section */}
       <GallerySection />
-
-      {/* Instagram Section */}
       <InstagramSection />
-
-      {/* Location Section */}
       <LocationSection />
-
-      {/* Reviews Section */}
       <ReviewsSection />
-
-      {/* Footer */}
       <Footer />
     </main>
   );

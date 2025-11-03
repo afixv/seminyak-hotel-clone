@@ -91,18 +91,23 @@ export default function Header() {
                             />
                           </svg>
                         </button>
-                        <div className="absolute hidden group-hover:block bg-white shadow-lg py-2 px-5 top-full mt-2 min-w-[200px]">
-                          <ul className="text-sm text-body">
-                            {item.dropdown.map((subItem, subIndex) => (
-                              <li key={subIndex} className="border-b">
-                                <Link
-                                  href={subItem.href}
-                                  className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-0.5 after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
-                                  {subItem.label}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
+                        {/* Dropdown with proper hover area - pointer-events-none prevents hover loss */}
+                        <div className="absolute -right-10 top-full pt-0 hidden group-hover:block pointer-events-none group-hover:pointer-events-auto z-50">
+                          <div className="bg-white shadow-lg py-2 px-5 mt-2 min-w-[200px]">
+                            <ul className="text-sm text-body">
+                              {item.dropdown.map((subItem, subIndex) => (
+                                <li
+                                  key={subIndex}
+                                  className="border-b last:border-b-0">
+                                  <Link
+                                    href={subItem.href}
+                                    className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-0.5 after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
+                                    {subItem.label}
+                                  </Link>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
                         </div>
                       </>
                     ) : (
@@ -132,18 +137,21 @@ export default function Header() {
                   />
                 </svg>
               </button>
-              <div className="absolute hidden group-hover:block bg-white shadow-lg py-2 px-5 top-full mt-2 min-w-[200px]">
-                <ul className="text-sm text-body">
-                  {languages.map((lang, i) => (
-                    <li key={i} className="border-b">
-                      <Link
-                        href="#"
-                        className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-0.5 after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
-                        {lang}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
+              {/* Language dropdown with proper hover area */}
+              <div className="absolute -right-10 top-full pt-0 hidden group-hover:block pointer-events-none group-hover:pointer-events-auto z-50">
+                <div className="bg-white shadow-lg py-2 px-5 mt-2 min-w-[200px]">
+                  <ul className="text-sm text-body">
+                    {languages.map((lang, i) => (
+                      <li key={i} className="border-b last:border-b-0">
+                        <Link
+                          href="#"
+                          className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-0.5 after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
+                          {lang}
+                        </Link>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </li>
           </ul>

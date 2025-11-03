@@ -51,7 +51,7 @@ export default function ReviewsSection() {
         <Heading
           level="h2"
           size="xl"
-          className="text-primary font-primary sm:font-light text-[1.5rem] sm:text-[2.2rem] lg:text-[2.2rem] xl:text-[2.8rem] w-full sm:w-[600px]">
+          className="text-primary text-start! font-primary sm:font-light text-[1.5rem] sm:text-[2.2rem] lg:text-[2.2rem] xl:text-[2.8rem] w-full sm:w-[600px] font-medium!">
           YOU DON&apos;T HAVE TO TAKE OUR WORD FOR IT
         </Heading>
         <div className="my-5 sm:my-10 flex items-center gap-2.5">

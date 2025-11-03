@@ -36,7 +36,7 @@ export default function InstagramSection() {
             src="https://cdn.lightwidget.com/widgets/1d28e1aebc5c5c53945abe4385a9e4a2.html"
             scrolling="no"
             allowTransparency={true}
-            className="lightwidget-widget w-full h-[290px] border-0 overflow-hidden"
+            className="lightwidget-widget w-full sm:h-[290px] border-0 overflow-hidden"
           />
         </div>
       </div>

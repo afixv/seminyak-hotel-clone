@@ -3,10 +3,15 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { NavItem } from "@/lib/types";
+import { navigationService } from "@/lib/services";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
+  const [languages, setLanguages] = useState<string[]>([]);
+  const [isLoadingNav, setIsLoadingNav] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,61 +22,25 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const navItems = [
-    { label: "About Us", href: "/en/about-us" },
-    {
-      label: "ACCOMMODATIONS",
-      href: "/en/accommodation/rooms",
-      dropdown: [
-        { label: "Rooms", href: "/en/accommodation/rooms" },
-        { label: "Suites", href: "/en/accommodation/suites" },
-        {
-          label: "One Bedroom Villa",
-          href: "/en/accommodation/one-bedroom-villa",
-        },
-        {
-          label: "Two Bedroom Villa",
-          href: "/en/accommodation/two-bedroom-villa",
-        },
-      ],
-    },
-    {
-      label: "WELLNESS",
-      href: "/en/wellness",
-      dropdown: [
-        { label: "Sava Spa", href: "/en/wellness/sava-spa" },
-        { label: "24/7 Gym", href: "/en/wellness/gym" },
-        { label: "Activities", href: "/en/wellness/activities" },
-      ],
-    },
-    {
-      label: "DINING",
-      href: "/en/dining",
-      dropdown: [
-        { label: "Sugarsand", href: "/en/dining/sugarsand" },
-        { label: "Breakfast Club Seminyak", href: "/en/dining/breakfast-club" },
-        { label: "Makase", href: "/en/dining/makase" },
-        { label: "Pottery Cafe", href: "/en/dining/pottery-cafe" },
-        { label: "Cave Pool Lounge", href: "/en/dining/cave-pool-lounge" },
-        { label: "Home Delivery", href: "/en/dining/home-delivery" },
-        { label: "Tree Bar", href: "/en/dining/tree-bar" },
-        { label: "KIOSK", href: "/en/dining/kiosk" },
-      ],
-    },
-    {
-      label: "EVENT",
-      href: "#",
-      dropdown: [
-        { label: "Meeting", href: "/en/meeting" },
-        { label: "Wedding", href: "/en/wedding" },
-      ],
-    },
-    { label: "Offers", href: "/en/offers" },
-    { label: "Press Release", href: "/en/press-release" },
-    { label: "Gallery", href: "/en/gallery" },
-    { label: "Awards", href: "/en/awards" },
-    { label: "FAQ & Contact", href: "/en/contact" },
-  ];
+  // Fetch navigation data
+  useEffect(() => {
+    const loadNavigation = async () => {
+      try {
+        const [navData, langData] = await Promise.all([
+          navigationService.fetchNavItems(),
+          navigationService.fetchLanguages(),
+        ]);
+        setNavItems(navData);
+        setLanguages(langData);
+      } catch (error) {
+        console.error("Error loading navigation:", error);
+      } finally {
+        setIsLoadingNav(false);
+      }
+    };
+
+    loadNavigation();
+  }, []);
 
   return (
     <>
@@ -100,52 +69,58 @@ export default function Header() {
             className={`uppercase items-center gap-[15px] py-10 lg:text-[.8rem] xl:text-[.8rem] hidden sm:flex ${
               isScrolled ? "text-body" : "text-white"
             }`}>
-            {navItems.map((item, index) => (
-              <li key={index} className="group relative">
-                {item.dropdown ? (
-                  <>
-                    <button className="relative after:content-[''] after:absolute after:block after:left-0 after:-top-1.5 after:h-0.5 after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] flex items-center after:bg-current">
-                      {item.label}
-                      <svg
-                        className="w-2.5 h-2.5 ms-3"
-                        fill="none"
-                        viewBox="0 0 10 6">
-                        <path
-                          stroke="currentColor"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="m1 1 4 4 4-4"
-                        />
-                      </svg>
-                    </button>
-                    <div className="absolute hidden group-hover:block bg-white shadow-lg py-2 px-5 top-full mt-2 min-w-[200px]">
-                      <ul className="text-sm text-body">
-                        {item.dropdown.map((subItem, subIndex) => (
-                          <li
-                            key={subIndex}
-                            className="border-b-[1px] border-[#f5f5f5]">
-                            <Link
-                              href={subItem.href}
-                              className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-[2px] after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
-                              {subItem.label}
-                            </Link>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className="relative after:content-[''] after:absolute after:block after:left-0 after:-top-[6px] after:h-[2px] after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] after:bg-current uppercase">
-                    {item.label}
-                  </Link>
-                )}
-              </li>
-            ))}
+            {isLoadingNav ? (
+              <li className="text-white">Loading...</li>
+            ) : (
+              <>
+                {navItems.map((item, index) => (
+                  <li key={index} className="group relative">
+                    {item.dropdown ? (
+                      <>
+                        <button className="relative after:content-[''] after:absolute after:block after:left-0 after:-top-1.5 after:h-0.5 after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] flex items-center after:bg-current">
+                          {item.label}
+                          <svg
+                            className="w-2.5 h-2.5 ms-3"
+                            fill="none"
+                            viewBox="0 0 10 6">
+                            <path
+                              stroke="currentColor"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth="2"
+                              d="m1 1 4 4 4-4"
+                            />
+                          </svg>
+                        </button>
+                        <div className="absolute hidden group-hover:block bg-white shadow-lg py-2 px-5 top-full mt-2 min-w-[200px]">
+                          <ul className="text-sm text-body">
+                            {item.dropdown.map((subItem, subIndex) => (
+                              <li
+                                key={subIndex}
+                                className="border-b">
+                                <Link
+                                  href={subItem.href}
+                                  className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-0.5 after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
+                                  {subItem.label}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        className="relative after:content-[''] after:absolute after:block after:left-0 after:-top-1.5 after:h-0.5 after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] after:bg-current uppercase">
+                        {item.label}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </>
+            )}
             <li className="group relative">
-              <button className="relative after:content-[''] after:absolute after:block after:left-0 after:-top-[6px] after:h-[2px] after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] flex items-center after:bg-current uppercase">
+              <button className="relative after:content-[''] after:absolute after:block after:left-0 after:-top-1.5 after:h-0.5 after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] flex items-center after:bg-current uppercase">
                 EN
                 <svg
                   className="w-2.5 h-2.5 ms-3"
@@ -162,19 +137,11 @@ export default function Header() {
               </button>
               <div className="absolute hidden group-hover:block bg-white shadow-lg py-2 px-5 top-full mt-2 min-w-[200px]">
                 <ul className="text-sm text-body">
-                  {[
-                    "English",
-                    "Indonesia",
-                    "Russia",
-                    "Korea",
-                    "Simplified Chinese",
-                    "Traditional Chinese",
-                    "Arabic",
-                  ].map((lang, i) => (
-                    <li key={i} className="border-b-[1px] border-[#f5f5f5]">
+                  {languages.map((lang, i) => (
+                    <li key={i} className="border-b">
                       <Link
                         href="#"
-                        className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-[2px] after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
+                        className="py-3 block relative after:content-[''] after:absolute after:block after:left-0 after:top-0 after:h-0.5 after:bg-secondary after:w-0 after:transition-all after:duration-300 after:ease-in-out hover:after:w-[30px] uppercase">
                         {lang}
                       </Link>
                     </li>

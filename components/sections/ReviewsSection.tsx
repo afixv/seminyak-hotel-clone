@@ -1,8 +1,41 @@
-import React from "react";
+"use client";
+
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { Button, Heading, Text, Container } from "@/components/ui";
+import { reviewsService } from "@/lib/services";
 
 export default function ReviewsSection() {
+  const [rating, setRating] = useState<{ rating: number; count: number } | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadRating = async () => {
+      try {
+        setIsLoading(true);
+        const data = await reviewsService.fetchRating();
+        setRating(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Failed to load rating");
+        console.error("Error loading rating:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadRating();
+  }, []);
+
+  if (error) {
+    return <div className="text-center py-10 text-red-500">Error: {error}</div>;
+  }
+
+  if (isLoading || !rating) {
+    return <div className="text-center py-10">Loading...</div>;
+  }
+
   const stars = Array(5).fill(0);
 
   return (
@@ -37,7 +70,7 @@ export default function ReviewsSection() {
             ))}
           </ul>
           <Text size="sm" className="lg:text-[.8rem] xl:text-[.9rem]">
-            4.8/5(1147 Reviews)
+            {rating.rating.toFixed(1)}/{5}({rating.count.toLocaleString()} Reviews)
           </Text>
         </div>
         <Button

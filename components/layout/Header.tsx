@@ -194,14 +194,18 @@ export default function Header() {
       </header>
 
       {/* Mobile Header (SM) */}
-      <header className="fixed top-0 z-30 w-full flex md:hidden items-center justify-center h-[8vh] bg-transparent transition-all duration-300">
+      <header className={`fixed top-0 z-30 w-full flex md:hidden items-center justify-center h-[8vh] transition-all duration-300 ${
+          isScrolled ? "bg-white shadow-header" : "bg-transparent"
+        }`}>
         <Link href="/en">
           <Image
             src="/images/logo-new-ver.png"
             alt="Hotel Indigo Seminyak Logo"
             width={95}
             height={62}
-            className="w-[95px] filter mb-1 invert brightness-0"
+            className={`w-[95px] filter mb-1 ${
+              isScrolled ? "invert-0" : "invert brightness-0"
+            }`}
           />
         </Link>
       </header>
